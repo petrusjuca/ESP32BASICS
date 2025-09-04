@@ -56,7 +56,37 @@ void loop(){
 // Se não houver dados disponíveis, ela retorna -1
 // (char) — converte o valor recebido para o tipo caractere. Se você receber 65, ele vira 'A'. Se receber 49, vira '1'.
 
- if(SerialBT.available()) {
+ if(SerialBt.available()) {
+  // A função SerialBt.available() verifica se há dados recebidos pelo Bluetooth prontos para serem lidos
+  // Ela retorna o número de bytes disponíveis para leitura.
+  SerialBt.write(Serial.read());
+// Ou seja, ele pega dados que chegaram pelo USB (do PC)
+// e envia pelo Bluetooth para outro dispositivo conectado ao ESP32.
+// Aqui, está lendo um byte da comunicação Serial USB com o computador: Serial.read().
+//Em seguida, está escrevendo (enviando) esse byte para o Bluetooth com SerialBt.write().
+
+ }
+ if(SerialBt.available()) 
+ //Outra vez, verifica se há dados disponíveis para ler pelo Bluetooth.
+ // Se houver, ele verifica o valor da variável valorRecebido, que foi definida antes com:
+ // valorRecebido = (char)SerialBt.read();
+ //lorRecebido armazena o último caractere recebido via Bluetooth.
+ {
+  if (valorRecebido == '1')
+  //Se o caractere recebido for '1' (o número 1 como caractere, não número inteiro)
+  //envia a mensagem "LEDison preso:" para o dispositivo conectado via Bluetooth com SerialBt.println()
+  //ele liga o LED (ou qualquer coisa ligada ao pino 5 do ESP32) com digitalWrite(5, HIGH);
+  {
+    SerialBt.println("LEDison preso:");
+    digitalWrite(5, HIGH);
+  }
+
+    if (valorRecebido == '2'){
+    SerialBt.println("LEDison solto:");
+    digitalWrite(5,LOW);
+  }
+  
   
  }
+ delay(30);
 }
